@@ -1,4 +1,4 @@
-const apiUrl = 'http://localhost:3000';
+const apiUrl = 'https://outletserver.vercel.app/';
 
 export const userAddress = async () => {
   try {
