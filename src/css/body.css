@@ -813,7 +813,7 @@ main {
 
 .details-table td {
   border: 1px solid #363636;
-  padding: 0 0.5em;
+  padding: 0.5em;
   text-align: left;
   color: #363636;
 }
