@@ -359,12 +359,12 @@ document.addEventListener('DOMContentLoaded', async function () {
 
     let uploadedImages = [];
     const maxImages = 10; // Limite máximo de imagens
-    const imageContainer = document.getElementById('imageContainer'); // Container para as imagens
-    const addImageButton = document.getElementById('addImg'); // Botão para adicionar imagens
+    const imageContainer = document.getElementById('imageContainer');
+    const addImageButton = document.getElementById('addImg');
     const productName = document
       .querySelector('input[name="name"]')
       .value.replace(/\s+/g, '')
-      .toLowerCase(); // Nome do produto sem espaços
+      .toLowerCase();
 
     function setupImageSection(section) {
       const fileInput = section.querySelector('.imageInput');
@@ -386,7 +386,6 @@ document.addEventListener('DOMContentLoaded', async function () {
             section
           );
           if (imageIndex > -1) {
-            // Renomeia a imagem ao adicionar no array
             const newFileName = `${productName}_${String(
               imageIndex + 1
             ).padStart(2, '0')}.${file.name.split('.').pop()}`;
@@ -395,7 +394,6 @@ document.addEventListener('DOMContentLoaded', async function () {
             });
             uploadedImages[imageIndex] = renamedFile;
           } else {
-            // Renomeia a imagem ao adicionar no array
             const newFileName = `${productName}_${String(
               uploadedImages.length + 1
             ).padStart(2, '0')}.${file.name.split('.').pop()}`;
@@ -442,10 +440,9 @@ document.addEventListener('DOMContentLoaded', async function () {
 
       setupImageSection(newImageSection);
       imageContainer.appendChild(newImageSection);
-      updateImageSection(); // Atualiza a numeração após adicionar uma nova imagem
+      updateImageSection();
     }
 
-    // Função para atualizar a numeração das imagens
     function updateImageSection() {
       Array.from(imageContainer.children).forEach((section, index) => {
         const fileInput = section.querySelector('.imageInput');
@@ -462,7 +459,6 @@ document.addEventListener('DOMContentLoaded', async function () {
         }
       });
 
-      // Desabilita o botão de adicionar imagem caso atinja o limite
       if (uploadedImages.length >= maxImages) {
         addImageButton.disabled = true;
       } else {
@@ -470,10 +466,8 @@ document.addEventListener('DOMContentLoaded', async function () {
       }
     }
 
-    // Listener para o botão de adicionar imagem
     addImageButton.addEventListener('click', addNewImageSection);
 
-    // Inicializa as imagens na página
     document.querySelectorAll('.img').forEach((section) => {
       setupImageSection(section);
     });
@@ -498,37 +492,30 @@ document.addEventListener('DOMContentLoaded', async function () {
       const properties = document.querySelectorAll('input[name="property[]"]');
       const values = document.querySelectorAll('textarea[name="value[]"]');
 
-      // Captura propriedades e valores
       properties.forEach((property, index) => {
         const value = values[index];
         if (property.value && value.value) {
-          details.push({
-            property: property.value.trim(), // Remove espaços em branco antes e depois
-            value: value.value.trim(), // Remove espaços em branco antes e depois
-          }); // Adiciona um objeto para cada par de propriedade e valor
+          details.push(property.value, value.value);
         }
       });
 
-      // Processa o preço, removendo "R$ " e convertendo para decimal
       const priceFormatted = parseFloat(
         price.value.replace('R$ ', '').replace('.', '').replace(',', '.')
       );
 
-      // Monta o objeto de produto
       const product = {
         name: nameProduct.value,
         category: category.value,
-        price: priceFormatted, // Preço convertido
-        stock: parseInt(stock.value), // Garante que o estoque é número
+        price: priceFormatted,
+        stock: parseInt(stock.value),
         type: typeProduct.value,
         brand: productBrand.value,
         model: modelProduct.value,
         color: colorProduct.value,
-        details: details, // Detalhes como pares de propriedade-valor
+        details: details,
       };
 
       try {
-        // Envia o produto e imagens
         const productData = await sendProductData(product, uploadedImages);
         if (productData.res.ok) {
           showModalAlert(
