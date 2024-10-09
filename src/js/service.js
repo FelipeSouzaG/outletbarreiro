@@ -354,7 +354,6 @@ export const publicProducts = async () => {
 export const sendProductData = async (product, uploadedImages) => {
   const formData = new FormData();
 
-  // Adiciona campos do produto
   formData.append('name', product.name);
   formData.append('category', product.category);
   formData.append('price', product.price);
@@ -363,15 +362,10 @@ export const sendProductData = async (product, uploadedImages) => {
   formData.append('brand', product.brand);
   formData.append('model', product.model);
   formData.append('color', product.color);
+  formData.append('details', product.details);
 
-  // Adiciona os pares de detalhes no formato correto
-  product.details.forEach((detail) => {
-    formData.append('details[]', JSON.stringify(detail)); // Envia cada detalhe como uma string JSON
-  });
-
-  // Adiciona imagens carregadas
   uploadedImages.forEach((image) => {
-    formData.append('images', image); // Usa a chave 'images' para o multer
+    formData.append('images', image);
   });
 
   try {
